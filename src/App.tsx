@@ -1,29 +1,29 @@
-import React, { useEffect } from 'react';
-import logo from './logo.svg';
+// App.tsx
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import GameState from './models/GameState';
+import BingoBoard from './component/BingoBoard';
+import BingoCell from './component/BingoCell';
 
 function App() {
+  const [number, setNumber] = useState<number>(5);
+  const [numbers, setNumbers] = useState<number[][]>([[1,2,3],[4,5,6],[7,8,9]]);
+
+
+  //TODO DELETE THIS
+
+
 
   // just for test
   // TODO fix this
   useEffect(() => {
-    const gamestate = new GameState(3);
-    gamestate.addPlayer([[1,2,3],[4,5,6],[7,8,9]]);
-    gamestate.addPlayer([[2,3,4],[5,6,7],[8,9,10]]);
-    gamestate.callNumber(4);
-    gamestate.callNumber(6);
-    gamestate.callNumber(8);
-    gamestate.callNumber(2);
-    gamestate.callNumber(10);
-    console.log(gamestate.getMatchesOfAllPlayers());
-    console.log(gamestate.getNumbersOfAllPlayers());
-    console.log(gamestate.getBingoCountOfAllPlayers());
+    console.log(number);
+    console.log(numbers); 
+  }, [number]);
 
-  }, [])
   return (
     <div className="App">
-      
+      <BingoCell number={number} mode="matched" onNumberChange={(newNumber: number) => setNumber(newNumber)} />
+      <BingoBoard numbers={numbers} mode='form' onNumbersChange={setNumbers}/>
     </div>
   );
 }
