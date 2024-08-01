@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import CellStatus from "../types/CellStatus";
+
 
 interface BingoCellProps {
   number: number;
-  mode: "form" | "unmatched" | "matched";
+  mode: CellStatus;
   onNumberChange: (newNumber: number) => void;
 }
 
@@ -26,7 +28,7 @@ export default function BingoCell({
   };
 
   useEffect(() => {
-    switch (mode) {
+    switch (mode.value) {
       case "form":
         setColor("lightyellow");
         break;
@@ -44,14 +46,14 @@ export default function BingoCell({
 
   return (
     <BingoTile color={color}>
-      {mode === "form" && (
+      {mode.value === "form" && (
         <NumberInput
           type="number"
           value={inputValue}
           onChange={handleInputChange}
         />
       )}
-      {mode === "matched" && <NumberDiv>{inputValue}</NumberDiv>}
+      {mode.value === "matched" && <NumberDiv>{inputValue}</NumberDiv>}
     </BingoTile>
   );
 }
