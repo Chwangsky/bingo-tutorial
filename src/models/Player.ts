@@ -2,7 +2,7 @@ import Observer from "./Observer";
 
 export default class Player implements Observer {
 
-    private numbers: number [][] = [[]];
+    private numbers: number[][] = [[]];
     private matches: boolean[][] = [[]];
     private bingoSize: number = 0;
     private bingoCount: number = 0;
@@ -19,7 +19,6 @@ export default class Player implements Observer {
     }
     
     public updateMatches(givenNumber: number): void {
-        
         let isUpdated: boolean = false;
         this.numbers.forEach((row, i) => {
             row.forEach((num, j) => {
@@ -35,6 +34,15 @@ export default class Player implements Observer {
         }
     }
 
+    public updateCountBingo(): number {
+        let count: number = 0;
+        count += this.countHorizontalBingo();
+        count += this.countVerticalBingo();
+        count += this.countDiagonalBingoTLBR();
+        count += this.countDiagonalBingoTRBL();
+        return count;
+    }
+
     public getBingoCount(): number {
         return this.bingoCount;
     }
@@ -47,42 +55,43 @@ export default class Player implements Observer {
         return this.matches;
     }
 
-    private updateCountBingo(): number {
-        let ret: number = 0;
-        let tmpCount: number;
-
-        // count through horizontally
+    private countHorizontalBingo(): number {
+        let x = 0;
         for (let i = 0; i < this.bingoSize; i++) {
-            tmpCount = 0;
+            let tmpCount = 0;
             for (let j = 0; j < this.bingoSize; j++) {
                 if (this.matches[i][j]) tmpCount++;
             }
-            if (tmpCount === this.bingoSize) ret++;
+            if (tmpCount === this.bingoSize) x++;
         }
+        return x;
+    }
 
-        // count through vertically
+    private countVerticalBingo(): number {
+        let x = 0;
         for (let i = 0; i < this.bingoSize; i++) {
-            tmpCount = 0;
+            let tmpCount = 0;
             for (let j = 0; j < this.bingoSize; j++) {
                 if (this.matches[j][i]) tmpCount++;
             }
-            if (tmpCount === this.bingoSize) ret++;
+            if (tmpCount === this.bingoSize) x++;
         }
+        return x;
+    }
 
-        // count through diagonally from top-left to bottom-right 
-        tmpCount = 0;
+    private countDiagonalBingoTLBR(): number {
+        let tmpCount = 0;
         for (let i = 0; i < this.bingoSize; i++) {
             if (this.matches[i][i]) tmpCount++;
         }
-        if (tmpCount === this.bingoSize) ret++;
+        return tmpCount === this.bingoSize ? 1 : 0;
+    }
 
-        // count through diagonally from top-right to bottom-left
-        tmpCount = 0;
+    private countDiagonalBingoTRBL(): number {
+        let tmpCount = 0;
         for (let i = 0; i < this.bingoSize; i++) {
             if (this.matches[i][this.bingoSize - 1 - i]) tmpCount++;
         }
-        if (tmpCount === this.bingoSize) ret++;
-
-        return ret;
+        return tmpCount === this.bingoSize ? 1 : 0;
     }
 }
