@@ -8,14 +8,14 @@ interface BingoBoardProps {
   numbers: number[][];
   onNumbersChange: (newNumbers: number[][]) => void;
   matches: boolean[][];
-  gameState: "initial" | "start";
+  gamePhase: "initial" | "start";
 }
 
 export default function BingoBoard({
   numbers,
   onNumbersChange,
   matches,
-  gameState,
+  gamePhase,
 }: BingoBoardProps) {
 
   const [modes, setModes] = useState<CellStatus[][]>(
@@ -29,9 +29,9 @@ export default function BingoBoard({
   }, []);
 
   useLayoutEffect(() => {
-    if (gameState === "initial") {
+    if (gamePhase === "initial") {
       setModes(Array.from({ length: boardSize.current }, () => Array(boardSize.current).fill( {value : "form"} as CellStatus)));
-    } else if (gameState === "start") {
+    } else if (gamePhase === "start") {
       const tmpModes: CellStatus[][] = matches.map((rows: boolean[]) =>
         rows.map((match: boolean) => {
           return { value : match ? "matched" : "unmatched" } as CellStatus
@@ -39,7 +39,7 @@ export default function BingoBoard({
       );
       setModes(tmpModes);
     }
-  }, [gameState, JSON.stringify(matches)]); // 이중배열의 경우 각각의 요소가 바뀌게 되면 useEffect롤 호출하기 위해 JSON.stringify를 사용할 수 있음
+  }, [gamePhase, JSON.stringify(matches)]); // 이중배열의 경우 각각의 요소가 바뀌게 되면 useEffect롤 호출하기 위해 JSON.stringify를 사용할 수 있음
 
 
   const handleNumberChange = (

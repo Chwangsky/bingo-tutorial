@@ -2,13 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import BingoBoard from './component/BingoBoard';
-import GameState from './models/GameState';
 
 function App() {
 
-  const [gameState, setGameState] = useState<"initial" | "start">("initial");
+  const [gamePhase, setGamePhase] = useState<"initial" | "start">("initial");
 
-  // TODO const [game, ] = useState(new GameState(3));
+  //TODO const [game, ] = useState(new GameState(3));
 
 
   const onNumbersChange = (newNumbers: number[][]) => {
@@ -44,18 +43,18 @@ function App() {
 
   return (
     <div className="App">
-      { gameState === "initial" &&
+      { gamePhase === "initial" &&
         <div>
           시작!
         </div>
       }
-      <button onClick={() => setGameState("initial")}>Start Game</button>
+      <button onClick={() => setGamePhase("initial")}>Start Game</button>
 
       <BingoBoard
         numbers={numbers}
         onNumbersChange={onNumbersChange}
         matches={matches}
-        gameState={gameState}
+        gamePhase={gamePhase}
       />
     </div>
   );
