@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import BingoCell from "./BingoCell";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import CellStatus from "../types/CellStatus";
 
 // TODO
@@ -18,7 +18,9 @@ export default function BingoBoard({
   gameState,
 }: BingoBoardProps) {
 
-  const [modes, setModes] = useState<CellStatus[][]>([[{ value: "matched" }]]);
+  const [modes, setModes] = useState<CellStatus[][]>(
+    Array(3).fill(Array.from({ length: 3 }, () => Array(3).fill( {value : "form"} as CellStatus)))
+  );
 
   let boardSize = useRef<number>(3);
 
@@ -26,7 +28,7 @@ export default function BingoBoard({
     boardSize.current = numbers.length;
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (gameState === "initial") {
       setModes(Array.from({ length: boardSize.current }, () => Array(boardSize.current).fill( {value : "form"} as CellStatus)));
     } else if (gameState === "start") {
@@ -37,9 +39,8 @@ export default function BingoBoard({
       );
       setModes(tmpModes);
     }
-    
-    console.log(modes); // TODO
   }, [gameState, JSON.stringify(matches)]); // 이중배열의 경우 각각의 요소가 바뀌게 되면 useEffect롤 호출하기 위해 JSON.stringify를 사용할 수 있음
+
 
   const handleNumberChange = (
     rowIdx: number,
@@ -73,6 +74,7 @@ export default function BingoBoard({
 }
 
 const StyledBoard = styled.div<{ columns: number }>`
+  width: 400px; /* 적당하게 조절할 것 */
   background-color: grey;
   display: grid;
   grid-template-columns: repeat(${props => props.columns}, 1fr);
