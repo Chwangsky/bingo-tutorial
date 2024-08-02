@@ -4,13 +4,11 @@ import CellStatus from "../types/CellStatus";
 
 
 interface BingoCellProps {
-  number: number;
   mode: CellStatus;
   onNumberChange: (newNumber: number) => void;
 }
 
 export default function BingoCell({
-  number,
   mode,
   onNumberChange,
 }: BingoCellProps) {

@@ -16,7 +16,7 @@ export default function BingoBoard({
   numbers,
   onNumbersChange,
   matches,
-  gamePhase,
+  gamePhase
 }: BingoBoardProps) {
 
   const [modes, setModes] = useState<CellStatus[][]>(
@@ -25,6 +25,7 @@ export default function BingoBoard({
     )
   );
 
+  const stringifyMatches = JSON.stringify(matches); // eslint 경고문 제거를 위해
   useLayoutEffect(() => {
     if (gamePhase === "initial") {
       setModes(
@@ -40,7 +41,7 @@ export default function BingoBoard({
       );
       setModes(tmpModes);
     }
-  }, [gamePhase, JSON.stringify(matches)]); // 이중배열의 경우 각각의 요소가 바뀌게 되면 useEffect롤 호출하기 위해 JSON.stringify를 사용할 수 있음
+  }, [gamePhase, stringifyMatches, matches]); // 이중배열의 경우 각각의 요소가 바뀌게 되면 useEffect롤 호출하기 위해 JSON.stringify를 사용할 수 있음
 
   const handleNumberChange = (
     rowIdx: number,
@@ -54,6 +55,16 @@ export default function BingoBoard({
     );
     onNumbersChange(newNumbers);
 
+    if (gamePhase === "start") {
+      const tmpModes: CellStatus[][] = matches.map((rows: boolean[]) =>
+        rows.map((match: boolean) => {
+          return { value: match ? "matched" : "unmatched" } as CellStatus;
+        })
+      );
+      setModes(tmpModes);
+    }
+    
+
   };
 
   return (
@@ -62,7 +73,6 @@ export default function BingoBoard({
         row.map((number, colIdx) => (
           <BingoCell
             key={`${rowIdx}-${colIdx}`}
-            number={numbers[rowIdx][colIdx]}
             mode={modes[rowIdx][colIdx]}
             onNumberChange={(newNumber: number) =>
               handleNumberChange(rowIdx, colIdx, newNumber)

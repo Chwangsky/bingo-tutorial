@@ -6,12 +6,14 @@ import { gameStateImpl } from "./models";
 import GameState from "./models/GameState";
 import styled from "styled-components";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
-import { BINGO_COUNT_FOR_WIN, BINGO_SIZE, MAX_NUMBER } from "./constant";
-
-
+import {
+  BINGO_COUNT_FOR_WIN,
+  BINGO_SIZE,
+  MAX_NUMBER,
+  MAX_PLAYER_NUMBER,
+} from "./constant";
 
 const App = () => {
-  
   // TODO const MAX_PLAYERS = 5;
 
   const [gamePhase, setGamePhase] = useState<"initial" | "start">("initial");
@@ -97,6 +99,14 @@ const App = () => {
   const onAddPlayerButtonClickHandler = (
     event: React.MouseEvent<HTMLButtonElement>
   ): void => {
+    if (playersNumbers.length >= MAX_PLAYER_NUMBER) {
+      enqueueSnackbar(
+        `최대 ${MAX_PLAYER_NUMBER}명의 플레이어 까지만 등록할 수 있습니다.`,
+        { variant: "error" }
+      );
+      return;
+    }
+
     setPlayersNumbers((prev) => {
       const newBingoBoard = Array.from({ length: BINGO_SIZE }, () =>
         Array.from({ length: BINGO_SIZE }, () => 0)
@@ -161,7 +171,7 @@ const App = () => {
         <HeadBingo>
           <div>BINGO!</div>
           <div>
-            <_0woo_>dev. _0woo_</_0woo_>
+            <Div0woo>dev. _0woo_</Div0woo>
           </div>
         </HeadBingo>
         {gamePhase === "initial" && (
@@ -182,7 +192,9 @@ const App = () => {
                 placeholder={`1에서 ${MAX_NUMBER}사이의 수를 입력하고 Enter키를 누르세요`}
                 onKeyDown={onCallNumberInputKeyDownHandler}
               />
-              <button onClick={onResetButtonClickHandler}>RESET</button>
+              <StyledButton onClick={onResetButtonClickHandler}>
+                RESET
+              </StyledButton>
             </div>
           </div>
         )}
@@ -221,7 +233,7 @@ const HeadBingo = styled.div`
   align-items: flex-end;
 `;
 
-const _0woo_ = styled.div`
+const Div0woo = styled.div`
   font-size: 20px;
 `;
 
@@ -275,12 +287,14 @@ const PlayerInfoBox = styled.div`
 `;
 
 const CallNumberInput = styled.input`
-  width: 100%;
+  width: 500px;
+  border-radius: 30px;
   background-color: white;
   font-size: 20px;
   text-align: center;
   border: none;
   outline: none;
+  margin-right: 100px;
 
   /* 스핀 버튼 제거 */
   -moz-appearance: textfield;
