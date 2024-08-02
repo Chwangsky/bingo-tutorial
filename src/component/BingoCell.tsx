@@ -53,6 +53,7 @@ export default function BingoCell({
           onChange={handleInputChange}
         />
       )}
+      {mode.value === "unmatched" && <NumberDiv>{inputValue}</NumberDiv>}
       {mode.value === "matched" && <NumberDiv>{inputValue}</NumberDiv>}
     </BingoTile>
   );

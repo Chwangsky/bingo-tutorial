@@ -2,7 +2,7 @@ interface Observer {
     setNumbers(numbers: number[][]): void;
     updateMatches(givenNumber: number): void;
     getNumbers(): number[][];
-    getMatches(): boolean[][];
+    getMatches(): boolean[][]; //FIXME
     getBingoCount(): number;
 }
 

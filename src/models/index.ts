@@ -1,3 +1,3 @@
 import GameState from "./GameState";
 
-export const gameState = (n: number) => new GameState(n); //FIXME
+export const gameStateImpl = (n: number) => new GameState(n); //FIXME

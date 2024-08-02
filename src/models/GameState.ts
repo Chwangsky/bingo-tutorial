@@ -18,6 +18,12 @@ export default class GameState implements Observable {
         this.players.push(player);
     }
 
+    public addAllPlayer(playerNumbers: number[][][]): void {
+        for (const numbers of playerNumbers) {
+            this.addPlayer(numbers);
+        }
+    }
+
     // override //
     public removePlayer(index: number): void {
         this.players = this.players.splice(index, 1);
@@ -56,6 +62,4 @@ export default class GameState implements Observable {
     public getBingoCountOfAllPlayers(): number[] {
         return this.players.map(player => player.getBingoCount());
     }
-
-
 }
