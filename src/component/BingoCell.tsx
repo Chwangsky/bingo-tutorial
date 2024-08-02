@@ -63,8 +63,8 @@ const BingoTile = styled.div<{ color: string }>`
   background-color: ${({ color }) => color};
   border: none;
   margin: 10px;
-  width: 50px; /* 적절한 너비로 조정 */
-  height: 50px; /* 적절한 높이로 조정 */
+  width: 50px; /* 필요시 수정 */
+  height: 50px; /* 필요시 수정 */
   border-radius: 50%;
   display: flex;
   flex-direction: center;

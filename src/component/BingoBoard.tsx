@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import BingoCell from "./BingoCell";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import CellStatus from "../types/CellStatus";
 import { BINGO_SIZE } from "../constant";
 
@@ -20,13 +20,10 @@ export default function BingoBoard({
 }: BingoBoardProps) {
 
   const [modes, setModes] = useState<CellStatus[][]>(
-    Array(BINGO_SIZE).fill(
-      Array.from({ length: BINGO_SIZE }, () =>
-        Array(BINGO_SIZE).fill({ value: "form" } as CellStatus)
-      )
+    Array.from({ length: BINGO_SIZE }, () =>
+      Array(BINGO_SIZE).fill({ value: "form" } as CellStatus)
     )
   );
-
 
   useLayoutEffect(() => {
     if (gamePhase === "initial") {
@@ -56,6 +53,7 @@ export default function BingoBoard({
       )
     );
     onNumbersChange(newNumbers);
+
   };
 
   return (

@@ -1,5 +1,5 @@
 // App.tsx
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import BingoBoard from "./component/BingoBoard";
 import { gameStateImpl } from "./models";
@@ -139,6 +139,9 @@ const App = () => {
         enqueueSnackbar(`범위를 벗어난 숫자입니다.`, { variant: "error" });
         return;
       }
+      enqueueSnackbar(`${givenNumber} CALLED`, {
+        variant: "info",
+      });
       gameState.callNumber(givenNumber);
       setPlayersMatches(gameState.getMatchesOfAllPlayers());
       processWinningPlayer();
