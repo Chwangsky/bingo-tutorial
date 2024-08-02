@@ -2,6 +2,7 @@ import styled from "styled-components";
 import BingoCell from "./BingoCell";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import CellStatus from "../types/CellStatus";
+import { BINGO_SIZE } from "../constant";
 
 // TODO
 interface BingoBoardProps {
@@ -17,25 +18,21 @@ export default function BingoBoard({
   matches,
   gamePhase,
 }: BingoBoardProps) {
+
   const [modes, setModes] = useState<CellStatus[][]>(
-    Array(3).fill(
-      Array.from({ length: 3 }, () =>
-        Array(3).fill({ value: "form" } as CellStatus)
+    Array(BINGO_SIZE).fill(
+      Array.from({ length: BINGO_SIZE }, () =>
+        Array(BINGO_SIZE).fill({ value: "form" } as CellStatus)
       )
     )
   );
 
-  let boardSize = useRef<number>(3);
-
-  useEffect(() => {
-    boardSize.current = numbers.length;
-  }, []);
 
   useLayoutEffect(() => {
     if (gamePhase === "initial") {
       setModes(
-        Array.from({ length: boardSize.current }, () =>
-          Array(boardSize.current).fill({ value: "form" } as CellStatus)
+        Array.from({ length: BINGO_SIZE }, () =>
+          Array(BINGO_SIZE).fill({ value: "form" } as CellStatus)
         )
       );
     } else if (gamePhase === "start") {
@@ -62,7 +59,7 @@ export default function BingoBoard({
   };
 
   return (
-    <StyledBoard columns={boardSize.current}>
+    <StyledBoard columns={BINGO_SIZE} boxSize={70 * BINGO_SIZE + 50}>
       {numbers.map((row, rowIdx) =>
         row.map((number, colIdx) => (
           <BingoCell
@@ -79,10 +76,13 @@ export default function BingoBoard({
   );
 }
 
-const StyledBoard = styled.div<{ columns: number }>`
-  width: 400px; /* 적당하게 조절할 것 */
+const StyledBoard = styled.div<{ columns: number; boxSize: number}>`
+  width: ${(props) => props.boxSize}px; /* 적당하게 조절할 것 */
   background-color: grey;
   display: grid;
   grid-template-columns: repeat(${(props) => props.columns}, 1fr);
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
   gap: 10px;
 `;

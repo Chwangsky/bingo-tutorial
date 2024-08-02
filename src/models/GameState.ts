@@ -59,7 +59,7 @@ export default class GameState implements Observable {
         return this.players.map(player => player.getMatches());
     }
 
-    public getBingoCountOfAllPlayers(): number[] {
+    public getBingoCountsOfAllPlayers(): number[] {
         return this.players.map(player => player.getBingoCount());
     }
 }
